@@ -6,13 +6,11 @@ export default function App() {
 
     const [dice, setDice] = React.useState(allNewDice())
 
-    function allNewDice() {
-        const newDice = []
-        for(let i=0; i<10; i++){
-            newDice.push(generateNewDie())
-        }
-        return newDice
-    }
+    const [tenzies, setTenzies] = React.useState(false)
+
+    React.useEffect(() => {
+        console.log(dice)
+    }, [dice])
 
     function generateNewDie() {
         return {
@@ -20,6 +18,14 @@ export default function App() {
             isHeld: false,
             id: nanoid()
         }
+    }
+
+    function allNewDice() {
+        const newDice = []
+        for(let i=0; i<10; i++){
+            newDice.push(generateNewDie())
+        }
+        return newDice
     }
 
     function rollDice() {
