@@ -9,22 +9,32 @@ export default function App() {
     function allNewDice() {
         const newDice = []
         for(let i=0; i<10; i++){
-            newDice.push({
-                value: Math.ceil(Math.random() * 6), 
-                isHeld: false,
-                id: nanoid()
-            })
+            newDice.push(generateNewDie())
         }
         return newDice
     }
 
+    function generateNewDie() {
+        return {
+            value: Math.ceil(Math.random() * 6),
+            isHeld: false,
+            id: nanoid()
+        }
+    }
+
     function rollDice() {
-        setDice(allNewDice())
+        setDice(oldDice => oldDice.map(die => {
+            return die.isHeld ?
+                die :
+                generateNewDie()
+        }))
     }
 
     function holdDice(id) {
         setDice(oldDice => oldDice.map(die => {
-            return die.id === id ? {...die, isHeld: !die.isHeld} : die
+            return die.id === id ? 
+                {...die, isHeld: !die.isHeld} : 
+                die
         }))
     }
 
@@ -34,7 +44,8 @@ export default function App() {
             value={die.value}
             isHeld={die.isHeld}
             holdDice={() => holdDice(die.id)}
-        />))
+        />
+    ))
 
     return (
         <main>
