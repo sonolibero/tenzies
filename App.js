@@ -42,6 +42,7 @@ export default function App() {
                     generateNewDie()
             }))
         } else {
+            setTenzies(false)
             setDice(allNewDice())
         }
     }
