@@ -505,6 +505,8 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
 exports.default = App;
@@ -543,8 +545,23 @@ function App() {
         setDice(allNewDice());
     }
 
+    function _holdDice(id) {
+        setDice(function (oldDice) {
+            return oldDice.map(function (die) {
+                return die.id === id ? _extends({}, die, { isHeld: !die.isHeld }) : die;
+            });
+        });
+    }
+
     var diceElements = dice.map(function (die) {
-        return _react2.default.createElement(_Die2.default, { key: die.id, value: die.value });
+        return _react2.default.createElement(_Die2.default, {
+            key: die.id,
+            value: die.value,
+            isHeld: die.isHeld,
+            holdDice: function holdDice() {
+                return _holdDice(die.id);
+            }
+        });
     });
 
     return _react2.default.createElement(
@@ -628,9 +645,12 @@ var _react2 = _interopRequireDefault(_react);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function Die(props) {
+    var styles = {
+        backgroundColor: props.isHeld ? "#59E391" : "white"
+    };
     return _react2.default.createElement(
         "div",
-        { className: "die-face" },
+        { className: "die-face", style: styles, onClick: props.holdDice },
         _react2.default.createElement(
             "h2",
             { className: "die-num" },
