@@ -11,7 +11,7 @@ export default function App() {
     React.useEffect(() => {
         const allHeld = dice.every(die => die.isHeld)
         const firstValue = dice[0].value
-        const allSameValue = dice.every(die.value === firstValue)
+        const allSameValue = dice.every(die => die.value === firstValue)
         if(allHeld && allSameValue) {
             setTenzies(true)
             console.log("you won")
