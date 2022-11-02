@@ -4,10 +4,6 @@ import {nanoid} from "nanoid"
 
 export default function App() {
 
-    function holdDice(id) {
-        console.log(id)
-    }
-
     const [dice, setDice] = React.useState(allNewDice())
 
     function allNewDice() {
@@ -26,12 +22,16 @@ export default function App() {
         setDice(allNewDice())
     }
 
+    function holdDice(id) {
+        console.log(id)
+    }
+
     const diceElements = dice.map(die => (
         <Die
             key={die.id} 
             value={die.value}
             isHeld={die.isHeld}
-            holdDice={holdDice}
+            holdDice={() => holdDice(die.id)}
         />))
 
     return (
